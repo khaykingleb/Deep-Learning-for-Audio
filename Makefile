@@ -138,5 +138,5 @@ clean-all: clean-logs clean-general ## Delete all "junk" files
 ##==================================================================================================
 ##@ Miscellaneous
 
-upd-pre-commit:
+upd-pre-commit:  ## Update pre-commit hooks
 	poetry run pre-commit autoupdate
