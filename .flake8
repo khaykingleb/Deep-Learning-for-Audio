@@ -4,8 +4,29 @@ docstring-convention = google
 import-order-style = smarkets
 max-cognitive-complexity = 15
 max-complexity = 15
-max-line-length = 88
-ignore = E203, E266, E501, W503, F403, F401
-per-file-ignores =
-  tests/*: ANN001, ANN201, B950, D103, D100, DAR
+max-line-length = 100
+#ignore = E203, E266, E501, W503, F403, F401
+extend-ignore =
+  # D101,
+  # D105,
+  # D107,
+  # D205,
+  # D209,
+  # D410,
+  # D411,
+  # D415,
+  # E203,
+  # E266,
+  # E501,
+  # N817,
+  # N803,
+  # N806,
+  # N812
+  # W503,
+  # F403,
+  # F401
+
+per-file-ignores =  # ignore specific flake8 rules for specific files
   src/core/asr/trainer/__init__.py: CCR001
+
+extend-exclude =  # exclude files from being linted
