@@ -68,11 +68,6 @@ repos:
     hooks:
       - id: hadolint-docker
 
-  #- repo: https://github.com/mrtazz/checkmake.git
-  #  rev: 0.2.1
-  #  hooks:
-  #    - id: checkmake
-
   #- repo: https://github.com/antonbabenko/pre-commit-terraform
   #  rev: v1.75.0
   #  hooks:
