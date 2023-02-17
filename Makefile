@@ -10,7 +10,7 @@ help: ## Display help
 .PHONY: help
 
 ####==================================================================================================
-##@ General initialization
+##@ General Initialization
 
 install-dotenv:  ## Install dotenv to read .env file
 ifeq ($(shell echo $$SHELL), /bin/bash)
@@ -30,7 +30,7 @@ ifeq ($(UNAME), Linux)
 endif
 
 ##==================================================================================================
-##@ Repo initialization
+##@ Repo Initialization
 
 repo-deps:  ## Install dependencies
 	pip install poetry
@@ -71,23 +71,20 @@ docker-run:  ## Run container
 ##==================================================================================================
 ##@ Datasets
 
-datasets-rights: ## Grant execution rights to scripts/datasets.sh
-	chmod +x ./scripts/datasets.sh
-
-datasets-lj: datasets-rights ## Download LJSpeech dataset
+datasets-lj:  ## Download LJSpeech dataset
 	sh ./scripts/datasets.sh download_lj_speech \
-		resources/datasets/asr \
+		artifacts/datasets/asr \
 		https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2
 
 .ONESHELL:
-datasets-libri.%: datasets-rights  ## Download specified LibriSpeech dataset (e.g. make datasets-libri.dev-clean)
+datasets-libri.%:  ## Download specified LibriSpeech dataset (e.g. make datasets-libri.dev-clean)
 	dataset=$(shell echo $@ | awk -F. '{print $$2}')
 	sh ./scripts/datasets.sh download_libri_speech \
-		resources/datasets/asr \
+		artifacts/datasets/asr \
 		$$dataset
 
 .ONESHELL:
-datasets-libri.all: datasets-rights  ## Download all LibriSpeech datasets
+datasets-libri.all:  ## Download all LibriSpeech datasets
 	for dataset in dev-clean \
 				   dev-other \
 				   test-clean \
@@ -97,35 +94,35 @@ datasets-libri.all: datasets-rights  ## Download all LibriSpeech datasets
 				   train-other-500
 	do
 		sh ./scripts/datasets.sh download_libri_speech \
-			resources/datasets/asr \
+			artifacts/datasets/asr \
 			$$dataset
 	done
 
 ##==================================================================================================
 ##@ Research
 
-jupyter: ## Run jupyter lab
+jupyter:  ## Run jupyter lab
 	poetry run jupyter lab
 
 ##==================================================================================================
 ##@ Checks
 
-mypy: ## Run type checker
+mypy:  ## Run type checker
 	poetry run mypy
 
 ##==================================================================================================
-##@ Secrets
+##@ Miscellaneous
+
+upd-pre-commit:  ## Update pre-commit hooks
+	poetry run pre-commit autoupdate
 
 gen-secrets-baseline:  ## Create .secrets.baseline file
 	poetry run detect-secrets scan > .secrets.baseline
 
-##==================================================================================================
-##@ Cleaning
-
-clean-logs: ## Delete log files
+clean-logs:  ## Delete log files
 	rm -rf logs/* wandb/*
 
-clean-general: ## Delete general files
+clean-general:  ## Delete general files
 	find . -type f -name "*.DS_Store" -ls -delete
 	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
 	find . | grep -E ".pytest_cache" | xargs rm -rf
@@ -133,10 +130,4 @@ clean-general: ## Delete general files
 	find . | grep -E ".trash" | xargs rm -rf
 	rm -f .coverage
 
-clean-all: clean-logs clean-general ## Delete all "junk" files
-
-##==================================================================================================
-##@ Miscellaneous
-
-upd-pre-commit:  ## Update pre-commit hooks
-	poetry run pre-commit autoupdate
+clean-all: clean-logs clean-general  ## Delete all "junk" files
