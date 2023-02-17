@@ -1,9 +1,0 @@
-formatter: "markdown table" # this is required
-
-output:
-  file: ../README.md
-  mode: inject
-
-settings:
-  hide-empty: true
-  lockfile: true
